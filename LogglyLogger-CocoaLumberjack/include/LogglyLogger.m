@@ -112,46 +112,46 @@
 
 - (void)doPostToLoggly:(NSString *)messagesString {
 
-    if ([messagesString length] == 0) {
-        return;
-    }
-
-    if (!self.logglyKey) {
-        NSAssert(false, @"You MUST set a loggly api key in the logglyKey property of this logger");
-    }
-
-    if (!_logglyURL) {
-        _logglyURL = [NSURL URLWithString:[NSString stringWithFormat:self.logglyUrlTemplate, self.logglyKey, self.logglyTags]];
-    }
-
-    if (!_sessionConfiguration) {
-        _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        _sessionConfiguration.HTTPAdditionalHeaders = @{
-                @"Content-Type"  : @"application/json"
-        };
-        _sessionConfiguration.allowsCellularAccess = YES;
-    }
-
-    if (!_hasLoggedFirstLogglyPost && _outputFirstResponse) {
-        NSLog(@"Posting to Loggly: %@", messagesString);
-    }
-
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:_sessionConfiguration];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_logglyURL];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[messagesString dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (!_hasLoggedFirstLogglyPost) {
-            _hasLoggedFirstLogglyPost = YES;
-            if (error) {
-                NSLog(@"LOGGLY ERROR: Error object = %@. This was the last NSLog statement you will see from LogglyLogger. The rest of the posts to Loggly will be done silently",error);
-            } else if (data && _outputFirstResponse) {
-                NSString *responseString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-                NSLog(@"LOGGLY: Response = %@  This was the last NSLog statement you will see from LogglyLogger. The rest of the posts to Loggly will be done silently.",responseString);
-            }
-        }
-    }];
-    [postDataTask resume];
+//    if ([messagesString length] == 0) {
+//        return;
+//    }
+//
+//    if (!self.logglyKey) {
+//        NSAssert(false, @"You MUST set a loggly api key in the logglyKey property of this logger");
+//    }
+//
+//    if (!_logglyURL) {
+//        _logglyURL = [NSURL URLWithString:[NSString stringWithFormat:self.logglyUrlTemplate, self.logglyKey, self.logglyTags]];
+//    }
+//
+//    if (!_sessionConfiguration) {
+//        _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//        _sessionConfiguration.HTTPAdditionalHeaders = @{
+//                @"Content-Type"  : @"application/json"
+//        };
+//        _sessionConfiguration.allowsCellularAccess = YES;
+//    }
+//
+//    if (!_hasLoggedFirstLogglyPost && _outputFirstResponse) {
+//        NSLog(@"Posting to Loggly: %@", messagesString);
+//    }
+//
+//    NSURLSession *session = [NSURLSession sessionWithConfiguration:_sessionConfiguration];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_logglyURL];
+//    [request setHTTPMethod:@"POST"];
+//    [request setHTTPBody:[messagesString dataUsingEncoding:NSUTF8StringEncoding]];
+//    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//        if (!_hasLoggedFirstLogglyPost) {
+//            _hasLoggedFirstLogglyPost = YES;
+//            if (error) {
+//                NSLog(@"LOGGLY ERROR: Error object = %@. This was the last NSLog statement you will see from LogglyLogger. The rest of the posts to Loggly will be done silently",error);
+//            } else if (data && _outputFirstResponse) {
+//                NSString *responseString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//                NSLog(@"LOGGLY: Response = %@  This was the last NSLog statement you will see from LogglyLogger. The rest of the posts to Loggly will be done silently.",responseString);
+//            }
+//        }
+//    }];
+//    [postDataTask resume];
 }
 
 #pragma mark Property getters
